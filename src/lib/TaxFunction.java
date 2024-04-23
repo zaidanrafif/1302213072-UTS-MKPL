@@ -19,31 +19,27 @@ public class TaxFunction {
 
         return Math.max(0, tax);
     }
-	
-	
-	
-	private static void validateInput(int numberOfMonthWorking, int numberOfChildren) {
-		if (numberOfMonthWorking > 12) {
-			throw new IllegalArgumentException("More than 12 month working per year");
-		}
-		if (numberOfChildren > MAX_CHILDREN_FOR_TAX_FREE) {
-			throw new IllegalArgumentException("More than maximum allowed children");
-		}
-	}
-	
-	private static int calculateTaxFreeIncome(boolean isMarried, int numberOfChildren) {
-		int taxFreeIncome = BASE_TAX_FREE_INCOME;
-		if (isMarried) {
-			taxFreeIncome += ADDITIONAL_TAX_FREE_INCOME_MARRIED;
-		}
-		taxFreeIncome += numberOfChildren * ADDITIONAL_TAX_FREE_INCOME_PER_CHILD;
-	
-		return taxFreeIncome;
-	}
-	
-	private static int calculateTaxableIncome(int monthlySalary, int otherMonthlyIncome, int numberOfMonthWorking, int deductible, int taxFreeIncome) {
-		return ((monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible - taxFreeIncome;
-	}
-	
-	
+
+    private static void validateInput(int numberOfMonthWorking, int numberOfChildren) {
+        if (numberOfMonthWorking > 12) {
+            throw new IllegalArgumentException("More than 12 month working per year");
+        }
+        if (numberOfChildren > MAX_CHILDREN_FOR_TAX_FREE) {
+            throw new IllegalArgumentException("More than maximum allowed children");
+        }
+    }
+
+    private static int calculateTaxFreeIncome(boolean isMarried, int numberOfChildren) {
+        int taxFreeIncome = BASE_TAX_FREE_INCOME;
+        if (isMarried) {
+            taxFreeIncome += ADDITIONAL_TAX_FREE_INCOME_MARRIED;
+        }
+        taxFreeIncome += numberOfChildren * ADDITIONAL_TAX_FREE_INCOME_PER_CHILD;
+
+        return taxFreeIncome;
+    }
+
+    private static int calculateTaxableIncome(int monthlySalary, int otherMonthlyIncome, int numberOfMonthWorking, int deductible, int taxFreeIncome) {
+        return ((monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible - taxFreeIncome;
+    }
 }
