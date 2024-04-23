@@ -3,6 +3,12 @@ package lib;
 public class TaxFunction {
 
 	
+	private static final int TAX_RATE = 0;
+	private static final int MAX_CHILDREN_FOR_TAX_FREE = 0;
+	private static final int BASE_TAX_FREE_INCOME = 0;
+	private static final int ADDITIONAL_TAX_FREE_INCOME_MARRIED = 0;
+	private static final int ADDITIONAL_TAX_FREE_INCOME_PER_CHILD = 0;
+
 	/**
 	 * Fungsi untuk menghitung jumlah pajak penghasilan pegawai yang harus dibayarkan setahun.
 	 * 
@@ -15,8 +21,8 @@ public class TaxFunction {
 	 */
 	
 	
-	public static int calculateTax(int monthlySalary, int otherMonthlyIncome, int numberOfMonthWorking, int deductible, boolean isMarried, int numberOfChildren) {
-		
+	 public static int calculateTax(int monthlySalary, int otherMonthlyIncome, int numberOfMonthWorking, int deductible, boolean isMarried, int numberOfChildren) {
+    
 		int tax = 0;
 		
 		if (numberOfMonthWorking > 12) {
@@ -38,7 +44,32 @@ public class TaxFunction {
 		}else {
 			return tax;
 		}
-			 
 	}
+	
+	
+	
+	private static void validateInput(int numberOfMonthWorking, int numberOfChildren) {
+		if (numberOfMonthWorking > 12) {
+			throw new IllegalArgumentException("More than 12 month working per year");
+		}
+		if (numberOfChildren > MAX_CHILDREN_FOR_TAX_FREE) {
+			throw new IllegalArgumentException("More than maximum allowed children");
+		}
+	}
+	
+	private static int calculateTaxFreeIncome(boolean isMarried, int numberOfChildren) {
+		int taxFreeIncome = BASE_TAX_FREE_INCOME;
+		if (isMarried) {
+			taxFreeIncome += ADDITIONAL_TAX_FREE_INCOME_MARRIED;
+		}
+		taxFreeIncome += numberOfChildren * ADDITIONAL_TAX_FREE_INCOME_PER_CHILD;
+	
+		return taxFreeIncome;
+	}
+	
+	private static int calculateTaxableIncome(int monthlySalary, int otherMonthlyIncome, int numberOfMonthWorking, int deductible, int taxFreeIncome) {
+		return ((monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible - taxFreeIncome;
+	}
+	
 	
 }
